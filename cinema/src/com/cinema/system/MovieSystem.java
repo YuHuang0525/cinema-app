@@ -4,9 +4,13 @@ import com.cinema.bean.Business;
 import com.cinema.bean.Customer;
 import com.cinema.bean.Movie;
 import com.cinema.bean.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.*;
+
 
 public class MovieSystem {
 
@@ -23,6 +27,9 @@ public class MovieSystem {
     public static final Scanner SYS_SC = new Scanner(System.in);
 
     public static User loginUser;
+//    public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+    public static final Logger LOGGER = LoggerFactory.getLogger("MovieSystem.class");
 
     static {
 
@@ -133,9 +140,11 @@ public class MovieSystem {
                     loginUser = u;
                     if (u instanceof Customer) {
                         // customers
+                        LOGGER.info("Customer - " + u.getUserName() + " login successful");
                         showCustomerMain();
 
                     } else {
+                        LOGGER.info("Business - "  + u.getUserName() + " login successful");
                         showBusinessMain();
                     }
                     return;
@@ -201,7 +210,7 @@ public class MovieSystem {
         List<Movie> movies = BUSINESS_MOVIES_MAP.get(loginUser);
 
         // check if any movie is released yet
-        if (movies == null) {
+        if (movies.size() > 0) {
             System.out.println("currently you don't have any movies released~\n");
             return;
         }
