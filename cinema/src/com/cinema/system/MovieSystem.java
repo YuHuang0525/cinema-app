@@ -1,13 +1,11 @@
 package com.cinema.system;
 
 import com.cinema.bean.Business;
+import com.cinema.bean.Customer;
 import com.cinema.bean.Movie;
 import com.cinema.bean.User;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MovieSystem {
 
@@ -21,9 +19,166 @@ public class MovieSystem {
      */
     public static final Map<Business, List<Movie>> BUSINESS_MOVIES_MAP = new HashMap<>();
 
+    public static final Scanner SYS_SC = new Scanner(System.in);
+
+    public static User loginUser;
 
     public static void main(String[] args) {
 
+        showMain();
+
+    }
+
+    /**
+     * main page
+     */
+    private static void showMain() {
+
+        System.out.println("=========== Home Page ===========");
+        System.out.println("1. Login");
+        System.out.println("2. Customer Register");
+        System.out.println("3. Business Register");
+        while (true) {
+            System.out.println("Please choose from above: ");
+
+            String command = SYS_SC.nextLine();
+
+            switch (command) {
+                case "1":
+                    // login
+                    login();
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    break;
+                default:
+                    System.out.println("Please choose one of the operations from above");
+            }
+        }
+
+    }
+
+    /**
+     * login method
+     */
+    private static void login() {
+        while (true) {
+            System.out.println("Please enter your user ID: ");
+            String loginName = SYS_SC.nextLine();
+            System.out.println("Please enter your password: ");
+            String password = SYS_SC.nextLine();
+
+            User u = getUserById(loginName);
+
+            if (u != null) {
+                // check if password matches
+                if (u.getPassword().equals(password)) {
+                    System.out.println("Login successfully!");
+
+                    loginUser = u;
+                    if (u instanceof Customer) {
+                        // customers
+                        showCustomerMain();
+
+                    } else {
+                        showBusinessMain();
+                    }
+                    return;
+
+                } else {
+                    System.out.println("Incorrect password!");
+                }
+            } else {
+                System.out.println("Username not found!");
+            }
+        }
+
+    }
+
+    /**
+     * Business main page
+     */
+    private static void showBusinessMain() {
+        System.out.println("=========== Business Main Page ===========");
+        System.out.println(loginUser.getUserName() + loginUser.getSex() == "M" ? "Sir" : "Mam" +
+                " Welcome to the system!");
+        System.out.println("Please choose one of the following operations: ");
+        System.out.println("1. Show all movies info");
+        System.out.println("2. Release new movie");
+        System.out.println("3. Movie out of theatre");
+        System.out.println("4. Edit movie info");
+        System.out.println("5. Exit");
+        while (true) {
+            System.out.println("Please choose from above: ");
+            String command = SYS_SC.nextLine();
+            switch (command) {
+                case "1":
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    break;
+                case "4":
+                    break;
+                case "5":
+                    return;
+                default:
+                    System.out.println("Operation is not valid, please try again! ");
+                    System.out.println("\n");
+            }
+        }
+    }
+
+    /**
+     * Customer main page
+     */
+    private static void showCustomerMain() {
+        System.out.println("=========== Customer Main Page ===========");
+        System.out.println(loginUser.getUserName() + loginUser.getSex() == "M" ? "Sir" : "Mam" +
+                " Welcome to the system!");
+        System.out.println("Please choose one of the following operations: ");
+        System.out.println("1. Show all movies info");
+        System.out.println("2. Search movie info by movie name");
+        System.out.println("3. Write review");
+        System.out.println("4. Purchase ticket");
+        System.out.println("5. Exit");
+        while (true) {
+            System.out.println("Please choose from above: ");
+            String command = SYS_SC.nextLine();
+            switch (command) {
+                case "1":
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    break;
+                case "4":
+                    break;
+                case "5":
+                    return;
+                default:
+                    System.out.println("Operation is not valid, please try again! ");
+                    System.out.println("\n");
+            }
+        }
+
+    }
+
+    /**
+     * get user by id
+     * @param loginName
+     * @return User object
+     */
+    private static User getUserById(String loginName) {
+
+        for (User user : ALL_USERS) {
+            if (user.getLoginName().equals(loginName)) {
+                return user;
+            }
+        }
+
+        return null;
     }
 
 }
