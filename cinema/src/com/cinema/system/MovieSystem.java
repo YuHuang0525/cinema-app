@@ -23,6 +23,38 @@ public class MovieSystem {
 
     public static User loginUser;
 
+    static {
+
+        /**
+         * customer test data
+         */
+
+        User testCustomer = new Customer();
+        testCustomer.setUserName("Yu H");
+        testCustomer.setLoginName("yuh");
+        testCustomer.setPassword("123");
+        testCustomer.setSex('M');
+        testCustomer.setPhone("123456");
+        testCustomer.setBalance(0);
+        ALL_USERS.add(testCustomer);
+
+        /**
+         * business test data
+         */
+
+        Business testBusiness = new Business();
+        testBusiness.setUserName("admin");
+        testBusiness.setLoginName("admin");
+        testBusiness.setPassword("1234");
+        testBusiness.setSex('M');
+        testBusiness.setPhone("123456");
+        testBusiness.setBalance(0);
+        testBusiness.setShopName("AMC");
+        testBusiness.setShopLocation("Beijing");
+        ALL_USERS.add(testBusiness);
+
+    }
+
     public static void main(String[] args) {
 
         showMain();
@@ -34,11 +66,12 @@ public class MovieSystem {
      */
     private static void showMain() {
 
-        System.out.println("=========== Home Page ===========");
-        System.out.println("1. Login");
-        System.out.println("2. Customer Register");
-        System.out.println("3. Business Register");
         while (true) {
+            System.out.println("=========== Home Page ===========");
+            System.out.println("1. Login");
+            System.out.println("2. Customer Register");
+            System.out.println("3. Business Register");
+
             System.out.println("Please choose from above: ");
 
             String command = SYS_SC.nextLine();
@@ -56,6 +89,7 @@ public class MovieSystem {
                     System.out.println("Please choose one of the operations from above");
             }
         }
+
 
     }
 
@@ -101,7 +135,7 @@ public class MovieSystem {
      */
     private static void showBusinessMain() {
         System.out.println("=========== Business Main Page ===========");
-        System.out.println(loginUser.getUserName() + loginUser.getSex() == "M" ? "Sir" : "Mam" +
+        System.out.println(loginUser.getUserName() + (loginUser.getSex() == 'M' ? " Sir" : " Mam") +
                 " Welcome to the system!");
         System.out.println("Please choose one of the following operations: ");
         System.out.println("1. Show all movies info");
@@ -135,7 +169,7 @@ public class MovieSystem {
      */
     private static void showCustomerMain() {
         System.out.println("=========== Customer Main Page ===========");
-        System.out.println(loginUser.getUserName() + loginUser.getSex() == "M" ? "Sir" : "Mam" +
+        System.out.println(loginUser.getUserName() + (loginUser.getSex() == 'M' ? " Sir" : " Mam") +
                 " Welcome to the system!");
         System.out.println("Please choose one of the following operations: ");
         System.out.println("1. Show all movies info");
