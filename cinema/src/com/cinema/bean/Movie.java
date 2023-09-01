@@ -79,4 +79,17 @@ public class Movie {
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "name='" + name + '\'' +
+                ", actor='" + actor + '\'' +
+                ", score=" + score +
+                ", price=" + price +
+                ", duration=" + duration +
+                ", seats=" + seats +
+                ", startTime=" + startTime +
+                '}';
+    }
 }

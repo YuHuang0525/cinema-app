@@ -181,6 +181,7 @@ public class MovieSystem {
                     showBusinessInfo();
                     break;
                 case "2":
+                    releaseNewMovie();
                     break;
                 case "3":
                     break;
@@ -197,6 +198,45 @@ public class MovieSystem {
     }
 
     /**
+     * method for business to release new movie
+     */
+    private static void releaseNewMovie() {
+
+        // ask for the movie information
+
+        /**
+         *         this.name = name;
+         *         this.actor = actor;
+         *         this.score = score;
+         *         this.price = price;
+         *         this.duration = duration;
+         *         this.seats = seats;
+         *         this.startTime = startTime;
+         */
+        System.out.println("Please enter the movie's name: ");
+        String name = SYS_SC.nextLine();
+        System.out.println("Please enter actors: ");
+        String actors = SYS_SC.nextLine();
+        System.out.println("Please enter price: ");
+        String price = SYS_SC.nextLine();
+
+        // build Movie object
+        Movie newMovie = new Movie();
+        newMovie.setName(name);
+        newMovie.setActor(actors);
+        newMovie.setPrice(Double.valueOf(price));
+
+        // get the movie list of the business
+        List<Movie> movies = BUSINESS_MOVIES_MAP.get((Business) loginUser);
+
+        // add movie to the movie lists
+        movies.add(newMovie);
+
+        System.out.println("New movie - " + name + " has been successfully released!");
+        System.out.println("\n");
+    }
+
+    /**
      * show business info
      */
     private static void showBusinessInfo() {
@@ -210,7 +250,7 @@ public class MovieSystem {
         List<Movie> movies = BUSINESS_MOVIES_MAP.get(loginUser);
 
         // check if any movie is released yet
-        if (movies.size() > 0) {
+        if (movies.size() == 0) {
             System.out.println("currently you don't have any movies released~\n");
             return;
         }
