@@ -5,6 +5,7 @@ import com.cinema.bean.Customer;
 import com.cinema.bean.Movie;
 import com.cinema.bean.User;
 
+import java.time.Instant;
 import java.util.*;
 
 public class MovieSystem {
@@ -52,6 +53,25 @@ public class MovieSystem {
         testBusiness.setShopName("AMC");
         testBusiness.setShopLocation("Beijing");
         ALL_USERS.add(testBusiness);
+
+        /**
+         * movie test data
+         */
+        Movie testMovie = new Movie();
+        testMovie.setActor("Kyrie");
+        testMovie.setName("Basketball dream");
+        testMovie.setDuration(120);
+        testMovie.setPrice(240);
+        Date input = new Date();
+        Instant instant = input.toInstant();
+        Date testDate = Date.from(instant);
+        testMovie.setStartTime(testDate);
+        testMovie.setScore(5);
+
+        List<Movie> testMovieList = new ArrayList<>();
+        testMovieList.add(testMovie);
+
+        BUSINESS_MOVIES_MAP.put(testBusiness, testMovieList);
 
     }
 
@@ -137,17 +157,19 @@ public class MovieSystem {
         System.out.println("=========== Business Main Page ===========");
         System.out.println(loginUser.getUserName() + (loginUser.getSex() == 'M' ? " Sir" : " Mam") +
                 " Welcome to the system!");
-        System.out.println("Please choose one of the following operations: ");
-        System.out.println("1. Show all movies info");
-        System.out.println("2. Release new movie");
-        System.out.println("3. Movie out of theatre");
-        System.out.println("4. Edit movie info");
-        System.out.println("5. Exit");
         while (true) {
+            System.out.println("Please choose one of the following operations: ");
+            System.out.println("1. Show business info");
+            System.out.println("2. Release new movie");
+            System.out.println("3. Movie out of theatre");
+            System.out.println("4. Edit movie info");
+            System.out.println("5. Exit");
+
             System.out.println("Please choose from above: ");
             String command = SYS_SC.nextLine();
             switch (command) {
                 case "1":
+                    showBusinessInfo();
                     break;
                 case "2":
                     break;
@@ -162,6 +184,35 @@ public class MovieSystem {
                     System.out.println("\n");
             }
         }
+
+    }
+
+    /**
+     * show business info
+     */
+    private static void showBusinessInfo() {
+
+        System.out.println("Below is your business info: ");
+        Business business = (Business) loginUser;
+        System.out.println("Shop name: " + business.getShopName());
+        System.out.println("Shop location: " + business.getShopLocation());
+
+        // get all the movies info from the map
+        List<Movie> movies = BUSINESS_MOVIES_MAP.get(loginUser);
+
+        // check if any movie is released yet
+        if (movies == null) {
+            System.out.println("currently you don't have any movies released~\n");
+            return;
+        }
+
+        System.out.println("Below are the movies info: ");
+        // print out all the movies information
+        for (Movie movie : movies) {
+            System.out.println(movie);
+        }
+        System.out.println("\n");
+
     }
 
     /**
@@ -171,13 +222,14 @@ public class MovieSystem {
         System.out.println("=========== Customer Main Page ===========");
         System.out.println(loginUser.getUserName() + (loginUser.getSex() == 'M' ? " Sir" : " Mam") +
                 " Welcome to the system!");
-        System.out.println("Please choose one of the following operations: ");
-        System.out.println("1. Show all movies info");
-        System.out.println("2. Search movie info by movie name");
-        System.out.println("3. Write review");
-        System.out.println("4. Purchase ticket");
-        System.out.println("5. Exit");
+
         while (true) {
+            System.out.println("Please choose one of the following operations: ");
+            System.out.println("1. Show all movies info");
+            System.out.println("2. Search movie info by movie name");
+            System.out.println("3. Write review");
+            System.out.println("4. Purchase ticket");
+            System.out.println("5. Exit");
             System.out.println("Please choose from above: ");
             String command = SYS_SC.nextLine();
             switch (command) {
@@ -196,6 +248,7 @@ public class MovieSystem {
                     System.out.println("\n");
             }
         }
+
 
     }
 
