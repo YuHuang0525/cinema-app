@@ -404,6 +404,7 @@ public class MovieSystem {
             String command = SYS_SC.nextLine();
             switch (command) {
                 case "1":
+                    showAllMovies();
                     break;
                 case "2":
                     break;
@@ -420,6 +421,19 @@ public class MovieSystem {
         }
 
 
+    }
+
+    /**
+     * show all movies info
+     */
+    private static void showAllMovies() {
+        System.out.println("Below are all of the movies info: ");
+        BUSINESS_MOVIES_MAP.forEach(((business, movies) -> {
+            System.out.println(business.getShopName() + " at " + business.getShopLocation() + ":");
+            for (Movie movie: movies) {
+                System.out.println(movie);
+            }
+        }));
     }
 
     /**
