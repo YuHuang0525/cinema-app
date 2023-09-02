@@ -205,7 +205,7 @@ public class MovieSystem {
     private static void editMovie() {
         System.out.println("Please enter the movie name that you want to edit: ");
         String movieName = SYS_SC.nextLine();
-        Movie movie = getMovieByName(movieName);
+        Movie movie = getMovieByNameByBusiness(movieName);
 
         if (movie == null) {
             System.out.println("The movie name you entered does not exist, please try again");
@@ -281,7 +281,7 @@ public class MovieSystem {
     private static void removeMovie() {
         System.out.println("Please enter the movie name that you want to remove: ");
         String movieName = SYS_SC.nextLine();
-        Movie movie = getMovieByName(movieName);
+        Movie movie = getMovieByNameByBusiness(movieName);
 
         if (movie == null) {
             System.out.println("The movie name you entered does not exist, please try again");
@@ -301,7 +301,7 @@ public class MovieSystem {
      * @param movieName
      * @return movie object
      */
-    private static Movie getMovieByName(String movieName) {
+    private static Movie getMovieByNameByBusiness(String movieName) {
         List<Movie> allMovies = BUSINESS_MOVIES_MAP.get(loginUser);
 
         // loop through the map to find the corresponding movie
@@ -410,6 +410,7 @@ public class MovieSystem {
                     searchMovieInfoByName();
                     break;
                 case "3":
+                    writeReview();
                     break;
                 case "4":
                     break;
@@ -422,6 +423,65 @@ public class MovieSystem {
         }
 
 
+    }
+
+    /**
+     * write review score of a movie
+     */
+    private static void writeReview() {
+        System.out.println("Please enter the movie name: ");
+        String movieName = SYS_SC.nextLine();
+
+        Movie movie = getMovieByNameByCustomer(movieName);
+        if (movie == null) {
+            System.out.println("Movie not found, please try again");
+        } else {
+            while (true) {
+                try {
+                    System.out.println("Please enter the score[1-10]: ");
+                    String score = SYS_SC.nextLine();
+                    Double scoreInDouble = Double.valueOf(score);
+
+                    // check if score is in the correct range, i.e 1-10
+                    if (scoreInDouble < 1.0 || scoreInDouble > 10.0) {
+                        System.out.println("Invalid score, please try again");
+                    } else {
+                        movie.setScore(scoreInDouble);
+                        System.out.println("Thanks for your feedback!");
+                        return;
+                    }
+                } catch (Exception e) {
+                    System.out.println("Score is invalid...");
+                    LOGGER.error("User -" + loginUser.getLoginName() + " just entered invalid score");
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
+    }
+
+    /**
+     * get the movie object by movie name called by customer
+     * @param movieName
+     * @return movie object
+     */
+    private static Movie getMovieByNameByCustomer(String movieName) {
+
+        Movie foundMovie = null;
+        for (Map.Entry<Business, List<Movie>> entry : BUSINESS_MOVIES_MAP.entrySet()) {
+            for (Movie movie: entry.getValue()) {
+                if (movie.getName().equals(movieName)) {
+                    foundMovie = movie;
+                    break; // Exit the loop once the movie is found
+                }
+            }
+            if (foundMovie != null) {
+                break; // Exit the outer loop once the movie is found
+            }
+        }
+
+        return foundMovie;
     }
 
     /**
