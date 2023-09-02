@@ -407,6 +407,7 @@ public class MovieSystem {
                     showAllMovies();
                     break;
                 case "2":
+                    searchMovieInfoByName();
                     break;
                 case "3":
                     break;
@@ -419,6 +420,25 @@ public class MovieSystem {
                     System.out.println("\n");
             }
         }
+
+
+    }
+
+    /**
+     * search movie info by move name
+     */
+    private static void searchMovieInfoByName() {
+        System.out.println("Please enter movie name: ");
+        String movieName = SYS_SC.nextLine();
+
+        BUSINESS_MOVIES_MAP.forEach((business, movies) -> {
+            for (Movie m: movies) {
+                if (m.getName().equals(movieName)) {
+                    System.out.println("Movie - " + movieName + " will be presented at " + business.getShopLocation() + " by " + business.getShopName() +
+                            " at " + m.getStartTime() + "\n");
+                }
+            }
+        });
 
 
     }
