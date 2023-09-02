@@ -187,6 +187,7 @@ public class MovieSystem {
                     removeMovie();
                     break;
                 case "4":
+                    editMovie();
                     break;
                 case "5":
                     return;
@@ -196,6 +197,56 @@ public class MovieSystem {
             }
         }
 
+    }
+
+    /**
+     * edit the movie info
+     */
+    private static void editMovie() {
+        System.out.println("Please enter the movie name that you want to edit: ");
+        String movieName = SYS_SC.nextLine();
+        Movie movie = getMovieByName(movieName);
+
+        if (movie == null) {
+            System.out.println("The movie name you entered does not exist, please try again");
+        } else {
+            while (true) {
+                System.out.println("Please choose the attribute that you want to edit: ");
+                System.out.println("1. Movie name");
+                System.out.println("2. Movie price");
+                System.out.println("3. Movie actors");
+                System.out.println("4. Exit");
+                String command = SYS_SC.nextLine();
+                switch (command) {
+                    case "1":
+                        changeMovieName(movie);
+                        break;
+                    case "2":
+                        break;
+                    case "3":
+                        break;
+                    case "4":
+                        return;
+                    default:
+                        System.out.println("Invalid operation, please try again");
+                        break;
+                }
+            }
+
+        }
+
+    }
+
+    /**
+     * change the movie's name
+     * @param movie
+     */
+    private static void changeMovieName(Movie movie) {
+        System.out.println("Please enter the new movie name: ");
+        String oldMovieName = movie.getName();
+        String newMovieName = SYS_SC.nextLine();
+        movie.setName(newMovieName);
+        System.out.println("Movie - " + oldMovieName + " has been changed to - " + newMovieName);
     }
 
     /**
