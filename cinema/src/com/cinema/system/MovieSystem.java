@@ -44,7 +44,7 @@ public class MovieSystem {
         testCustomer.setPassword("123");
         testCustomer.setSex('M');
         testCustomer.setPhone("123456");
-        testCustomer.setBalance(0);
+        testCustomer.setBalance(1000);
         ALL_USERS.add(testCustomer);
 
         /**
