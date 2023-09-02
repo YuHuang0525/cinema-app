@@ -7,6 +7,7 @@ import com.cinema.bean.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.CompactNumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.*;
@@ -413,6 +414,7 @@ public class MovieSystem {
                     writeReview();
                     break;
                 case "4":
+                    purchaseTicket();
                     break;
                 case "5":
                     return;
@@ -423,6 +425,102 @@ public class MovieSystem {
         }
 
 
+    }
+
+    /**
+     * customer purchase ticket method
+     */
+    private static void purchaseTicket() {
+        System.out.println("Please enter the shop name: ");
+        String shopName = SYS_SC.nextLine();
+
+        Business business = getBusinessByShopName(shopName);
+
+        if (business == null) {
+            System.out.println("Sorry store does not exist");
+        } else {
+            showMovieInfo(business);
+
+            System.out.println("\nPlease enter the movie name: ");
+            String movieName = SYS_SC.nextLine();
+
+            purchaseMovie(business, movieName);
+        }
+
+    }
+
+    /**
+     * purchase movie ticket
+     * @param business
+     * @param movieName
+     */
+    private static void purchaseMovie(Business business, String movieName) {
+
+        // first check if business provides movie
+        Movie movie = getMovieByNameByCustomer(movieName);
+        if (!BUSINESS_MOVIES_MAP.get(business).contains(movie)) {
+            System.out.println("Sorry, this business does not have the movie you just entered.");
+            LOGGER.error("User- " + loginUser.getUserName() + " input movie is not found in the business");
+        } else {
+            if (movie.getSeats() == 0) {
+                System.out.println("Sorry this movie has no seat anymore");
+            } else {
+                if (loginUser.getBalance() < movie.getPrice()) {
+                    System.out.println("Sorry your balance is not enough");
+                } else {
+                    System.out.println("Please confirm that you want to buy 1 ticket of - " + movieName + " at " +
+                            business.getShopLocation() + " @ " + movie.getStartTime() + " [Y/N]: ");
+                    String confirm = SYS_SC.nextLine();
+                    if (confirm.equals("y") || confirm.equals("Y")) {
+                        // change the balance of both customer and business
+                        loginUser.addMoney(-1.0 * movie.getPrice());
+                        business.addMoney(movie.getPrice());
+                        // update the number of seats for the movie
+                        movie.decreaseSeat();
+
+                        LOGGER.info("User - " + loginUser.getLoginName() + " successfully purchased 1 ticket of - " +
+                                movieName + " at " + business.getShopLocation() + " @ " + movie.getStartTime());
+                        System.out.println("Transaction completes, we are looking forward to seeing you!");
+                    }
+                }
+            }
+        }
+
+    }
+
+    /**
+     * given the business object and print out all movies info of that business
+     * @param business
+     */
+    private static void showMovieInfo(Business business) {
+
+        System.out.println("Below are all the movies that " + business.getShopName() + " at " +
+                business.getShopLocation() + " is presenting: ");
+
+        List<Movie> ALL_Movies = BUSINESS_MOVIES_MAP.get(business);
+
+        for (Movie movie : ALL_Movies) {
+            System.out.println(movie);
+        }
+
+    }
+
+    /**
+     * get business object by shop name
+     * @param shopName
+     * @return Business object
+     */
+    private static Business getBusinessByShopName(String shopName) {
+
+        Set<Business> ALL_Business = BUSINESS_MOVIES_MAP.keySet();
+
+        for (Business business : ALL_Business) {
+            if (business.getShopName().equals(shopName)) {
+                return business;
+            }
+        }
+
+        return null;
     }
 
     /**
