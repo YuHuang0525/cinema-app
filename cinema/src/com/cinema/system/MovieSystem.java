@@ -337,12 +337,15 @@ public class MovieSystem {
         String actors = SYS_SC.nextLine();
         System.out.println("Please enter price: ");
         String price = SYS_SC.nextLine();
+        System.out.println("Please enter number of seats: ");
+        String seats = SYS_SC.nextLine();
 
         // build Movie object
         Movie newMovie = new Movie();
         newMovie.setName(name);
         newMovie.setActor(actors);
         newMovie.setPrice(Double.valueOf(price));
+        newMovie.setSeats(Integer.valueOf(seats));
 
         // get the movie list of the business
         List<Movie> movies = BUSINESS_MOVIES_MAP.get((Business) loginUser);
