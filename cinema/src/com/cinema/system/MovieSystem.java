@@ -184,6 +184,7 @@ public class MovieSystem {
                     releaseNewMovie();
                     break;
                 case "3":
+                    removeMovie();
                     break;
                 case "4":
                     break;
@@ -194,6 +195,46 @@ public class MovieSystem {
                     System.out.println("\n");
             }
         }
+
+    }
+
+    /**
+     * remove movie out of theatre
+     */
+    private static void removeMovie() {
+        System.out.println("Please enter the movie name that you want to remove: ");
+        String movieName = SYS_SC.nextLine();
+        Movie movie = getMovieByName(movieName);
+
+        if (movie == null) {
+            System.out.println("The movie name you entered does not exist, please try again");
+        } else {
+            System.out.println("Are you sure, you want to remove the movie from theatre? [Y/N]");
+            String confirm = SYS_SC.nextLine();
+            if (confirm.equals("Y") || confirm.equals("y")) {
+                BUSINESS_MOVIES_MAP.get(loginUser).remove(movie);
+                System.out.println("Movie " + movie.getName() + " has been successfully removed from theatre");
+            }
+        }
+
+    }
+
+    /**
+     * get the movie objects from the business' map by the movie's name
+     * @param movieName
+     * @return movie object
+     */
+    private static Movie getMovieByName(String movieName) {
+        List<Movie> allMovies = BUSINESS_MOVIES_MAP.get(loginUser);
+
+        // loop through the map to find the corresponding movie
+        for (Movie movie : allMovies) {
+            if (movie.getName().equals(movieName)) {
+                return movie;
+            }
+        }
+
+        return null;
 
     }
 
