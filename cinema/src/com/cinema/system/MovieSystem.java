@@ -225,6 +225,7 @@ public class MovieSystem {
                         changeMoviePrice(movie);
                         break;
                     case "3":
+                        changeMovieActor(movie);
                         break;
                     case "4":
                         return;
@@ -236,6 +237,18 @@ public class MovieSystem {
 
         }
 
+    }
+
+    /**
+     * change the movie's actor
+     * @param movie
+     */
+    private static void changeMovieActor(Movie movie) {
+        System.out.println("Please enter the new movie actors: ");
+        String oldMovieActor = movie.getActor();
+        String newMovieActor = SYS_SC.nextLine();
+        movie.setActor(newMovieActor);
+        System.out.println("Movie - " + movie.getName() + "'s actors has been changed to - " + newMovieActor + ", from " + oldMovieActor);
     }
 
     /**
