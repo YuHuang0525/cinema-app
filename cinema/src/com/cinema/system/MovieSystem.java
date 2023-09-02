@@ -222,6 +222,7 @@ public class MovieSystem {
                         changeMovieName(movie);
                         break;
                     case "2":
+                        changeMoviePrice(movie);
                         break;
                     case "3":
                         break;
@@ -235,6 +236,18 @@ public class MovieSystem {
 
         }
 
+    }
+
+    /**
+     * change the movie's price
+     * @param movie
+     */
+    private static void changeMoviePrice(Movie movie) {
+        System.out.println("Please enter the new movie price: ");
+        Double oldMoviePrice = movie.getPrice();
+        String newMoviePrice = SYS_SC.nextLine();
+        movie.setPrice(Double.valueOf(newMoviePrice));
+        System.out.println("Movie - " + movie.getName() + "'s price has been changed to - " + newMoviePrice + ", from " + oldMoviePrice);
     }
 
     /**
